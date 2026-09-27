@@ -495,7 +495,11 @@ c                              write(*,*) nodenei,v(2,nodenei)
                if(node1.ne.0) then
                   index=iponoeln(node1)
 !
-                  if(inoeln(2,inoeln(2,index)).eq.0) then
+                  if(inoeln(2,index).eq.0) then
+!
+!                 node belongs to one network element only
+!
+                  elseif(inoeln(2,inoeln(2,index)).eq.0) then
 !
 !                 no branch nor joint; determine neighboring element
 !
@@ -575,7 +579,11 @@ c                              write(*,*) nodenei,v(2,nodenei)
                if(node2.ne.0) then
                   index=iponoeln(node2)
 !
-                  if(inoeln(2,inoeln(2,index)).eq.0) then
+                  if(inoeln(2,index).eq.0) then
+!
+!                 node belongs to one network element only
+!
+                  elseif(inoeln(2,inoeln(2,index)).eq.0) then
 !
 !                 no branch nor joint; determine neighboring element
 !
