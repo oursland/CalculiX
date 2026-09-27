@@ -724,7 +724,7 @@ c
         call fluidsections(inpc,textpart,set,istartset,iendset,
      &       ialset,nset,ielmat,matname,nmat,irstrt,istep,istat,n,
      &       iline,ipol,inl,ipoinp,inp,lakon,ielprop,nprop,
-     &       nprop_,prop,ipoinpc,mi,ier)
+     &       nprop_,prop,ipoinpc,mi,ier,ne)
 !     
       elseif(textpart(1)(1:10).eq.'*FREQUENCY') then
         call frequencys(inpc,textpart,nmethod,

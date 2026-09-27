@@ -20,7 +20,7 @@
      &     ialset,nset,ielmat,matname,nmat,
      &     irstrt,istep,istat,n,iline,ipol,
      &     inl,ipoinp,inp,lakon,ielprop,nprop,nprop_,prop,
-     &     ipoinpc,mi,ier)
+     &     ipoinpc,mi,ier,ne)
 !     
 !     reading the input deck: *FLUID SECTION
 !     
@@ -39,7 +39,7 @@
      &     ielmat(mi(3),*),irstrt(*),nset,nmat,ndprop,npropstart,id,
      &     istep,istat,n,key,i,j,k,imaterial,ipos,lprop,ipoinpc(0:*),
      &     iline,ipol,inl,ipoinp(2,*),inp(3,*),ielprop(*),nprop,nprop_,
-     &     noil _mat,npu,nfix,iset,ier
+     &     noil _mat,npu,nfix,iset,ier,ne
 !     
       real*8 prop(*)
 
@@ -828,6 +828,12 @@ c     enddo
 !     
       do j=istartset(iset),iendset(iset)
         if(ialset(j).gt.0) then
+          if(ialset(j).gt.ne) then
+            write(*,*) '*ERROR reading *FLUID SECTION: element ',
+     &           ialset(j),' is not defined'
+            ier=1
+            return
+          endif
           if(lakon(ialset(j))(1:1).ne.'D') then
             write(*,*) '*ERROR reading *FLUID SECTION: element ',
      &           ialset(j),' is no fluid element.'
@@ -890,6 +896,12 @@ c     enddo
           do
             k=k-ialset(j)
             if(k.ge.ialset(j-1)) exit
+            if(k.gt.ne) then
+              write(*,*) '*ERROR reading *FLUID SECTION: element ',
+     &             k,' is not defined'
+              ier=1
+              return
+            endif
             if(lakon(k)(1:1).ne.'D') then
               write(*,*) '*ERROR reading *FLUID SECTION: element ',
      &             k,' is no fluid element.'
