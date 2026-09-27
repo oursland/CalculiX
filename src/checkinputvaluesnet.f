@@ -34,7 +34,7 @@
 !     
       character*8 lakon(*)
 !     
-      integer ieg(*),nflow,i,ielprop(*),index,nelem
+      integer ieg(*),nflow,i,ielprop(*),index,nelem,k,nelem1,id
 !     
       real*8 prop(*)
 !     
@@ -42,6 +42,29 @@
         nelem=ieg(i)
         index=ielprop(nelem)
         if(index.lt.0) cycle
+!     
+!     the three elements of a branch must be network elements
+!     (ieg is sorted in increasing order)
+!     
+        if((lakon(nelem)(2:5).eq.'REBR').or.
+     &       (lakon(nelem)(2:5).eq.'LPBR')) then
+          do k=1,3
+            if((prop(index+k).ge.1.d0).and.
+     &           (prop(index+k).le.ieg(nflow))) then
+              nelem1=nint(prop(index+k))
+              call nident(ieg,nelem1,nflow,id)
+              if(id.gt.0) then
+                if(ieg(id).eq.nelem1) cycle
+              endif
+            endif
+            write(*,*) '*ERROR in checkinputvaluesnet:'
+            write(*,*) '       trying to define a branch '
+            write(*,*) '       element ',prop(index+k),
+     &           ' is no network element'
+            write(*,*) '       element number: ',nelem
+            call exit(201)
+          enddo
+        endif
 !     
 !     modifying the prop array (formerly done in fluidsections.f)
 !     
