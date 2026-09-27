@@ -448,6 +448,8 @@ c      write(*,*) 'nenet= ',nenet
 !     
             if((xflow.gt.0).and.(node1.ne.0)) then
               gastemp=v(3,node1)
+            elseif(node2.eq.0) then
+              gastemp=v(3,node1)
             else
               gastemp=v(3,node2)
             endif
