@@ -543,6 +543,22 @@
         enddo loop2
       enddo loop1
 !
+!     all channel elements must have been reached from a
+!     SLUICE GATE or WEIR element
+!
+      do i=1,nflow
+        nelem=ieg(i)
+        if(lakon(nelem)(2:5).ne.'LICH') cycle
+        if(lakon(nelem)(6:7).eq.'IO') cycle
+        if(itreated(i).ne.1) then
+          write(*,*) '*ERROR in initialchannel: channel element',nelem
+          write(*,*) '       cannot be reached from a SLUICE GATE'
+          write(*,*) '       or WEIR element'
+          write(*,*)
+          call exit(201)
+        endif
+      enddo
+!
 c      i=1
 c      if(i.eq.1) return
 !     
