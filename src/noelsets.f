@@ -44,6 +44,7 @@
       endif
 !     
       igen=.false.
+      ipos=0
 !     
 !     reading the name of the set
 !     
@@ -101,6 +102,14 @@
      &           "*NSET or *ELSET%")
           endif
         enddo
+      endif
+!     
+      if(ipos.eq.0) then
+        write(*,*) '*ERROR reading *NSET/ELSET: no set name',
+     &       ' (NSET= or ELSET= parameter) was specified'
+        call inputerror(inpc,ipoinpc,iline,
+     &       "*NSET or *ELSET%",ier)
+        return
       endif
 !     
 !     check whether new set or old set 
