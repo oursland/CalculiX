@@ -57,6 +57,7 @@
 !     
       typename='
      &'
+      ipos=0
 !     
       do i=2,n
         if(textpart(i)(1:9).eq.'MATERIAL=') then
@@ -532,6 +533,14 @@ C     ndprop=20
         return
       endif
       imaterial=i
+!     
+      if(ipos.eq.0) then
+        write(*,*) '*ERROR reading *FLUID SECTION: no ELSET',
+     &       ' parameter was specified'
+        call inputerror(inpc,ipoinpc,iline,
+     &       "*FLUID SECTION%",ier)
+        return
+      endif
 !     
 c     do i=1,nset
 c     if(set(i).eq.elset) exit
